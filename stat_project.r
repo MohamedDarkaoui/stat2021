@@ -58,51 +58,73 @@ shapiro.test(age^(1/4))
 
 ###################################################
 # vraag 2
+# print(data)
+
+
+
+test <- wilcox.test(data$time ~ data$treat, alternative = "greater")
+test
+
 
 # subsets
 long_treatment_data<-data[data$treat=='1',]
 short_treatment_data<-data[data$treat=='0',]
 
-
-# gemiddelde
-X0 = mean(short_treatment_data$time)
-X1 = mean(long_treatment_data$time)
-
-# variantie
-S0 = sqrt(var(short_treatment_data$time))
-S1 = sqrt(var(long_treatment_data$time))
-
-# steekproefgrootte
-N0 = nrow(short_treatment_data)
-N1 = nrow(long_treatment_data)
-
-df0 = N0-1
-df1 = N1-1
-
-print(paste0("X0: ", X0))
-print(paste0("X1: ", X1))
-print(paste0("S0: ", S0))
-print(paste0("S1: ", S1))
-
 time = data$time
 treat = data$treat
 
-# F-test voor varianties
-var.test(time  ~ treat)
-
-# AG voor varianties
-qf(c(0.025,0.975),df0,df1)
+time0 = short_treatment_data$time
+time1 = long_treatment_data$time
 
 png("oef2/boxplot.png")
 boxplot(time ~ treat, main="boxplots voor groep 1 en groep 2")
 
+png("oef2/qqplot_groep1.png")
+qqnorm(time0, main="QQ-plot groep 1")
+qqline(time0)
 
-data$treat <- as.character(data$treat)
-# t-test: H1: µ0 - µ1 < 0
-t.test(data$time ~ data$treat,mu=0, alternative = "less", var.equal = TRUE)
+png("oef2/qqplot_groep2.png")
+qqnorm(time1, main="QQ-plot groep 2")
+qqline(time1)
 
-# AG voor test H1: µ1 > µ0
-qt(1-0.025, 604)
+# # gemiddelde
+# X0 = mean(short_treatment_data$time)
+# X1 = mean(long_treatment_data$time)
+
+# # variantie
+# S0 = sqrt(var(short_treatment_data$time))
+# S1 = sqrt(var(long_treatment_data$time))
+
+# # steekproefgrootte
+# N0 = nrow(short_treatment_data)
+# N1 = nrow(long_treatment_data)
+
+# df0 = N0-1
+# df1 = N1-1
+
+# print(paste0("X0: ", X0))
+# print(paste0("X1: ", X1))
+# print(paste0("S0: ", S0))
+# print(paste0("S1: ", S1))
+
+
+
+
+# # F-test voor varianties
+# var.test(time  ~ treat)
+
+# # AG voor varianties
+# qf(c(0.025,0.975),df0,df1)
+
+
+
+
+# data$treat <- as.character(data$treat)
+# # t-test: H1: µ0 - µ1 < 0
+# t.test(data$time ~ data$treat,mu=0, alternative = "less", var.equal = TRUE)
+
+# # AG voor test H1: µ1 > µ0
+# qt(1-0.025, 604)
 
 ###################################################
 # vraag 3
