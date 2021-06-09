@@ -28,7 +28,7 @@ sprintf("age sample size: %s", n_age)
 png(file = "age/age_table.png")
 plot(table(age), main="age table plot") 
 
-png(file = "age/age_hist")
+png(file = "age/age_hist.png")
 hist(age,breaks=16, main="age histogram")
 ##### 2 duidelijke uitschieters, ziet er rechts scheef uit #######
 
