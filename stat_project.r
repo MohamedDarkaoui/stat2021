@@ -13,7 +13,19 @@ data = data[-c(k+1, j+1, i+1, j*k+1, i*j+1, i*k+1, i*j*k+1, i+j+k+1),]
 # vraag 1: verdeling en normaliteit va variabele age
 
 age =  data$age
-png(file = "age/age_table")
+
+
+mean_age <- mean(age,na.rm = TRUE)
+median_age <- median(age, na.rm = TRUE)
+matrix_age <- t(age)
+n_age <- NROW(!is.na(age))
+
+sprintf("mean age: %s", mean_age)
+sprintf("median age: %s", median_age)
+sprintf("age sample size: %s", n_age)
+
+
+png(file = "age/age_table.png")
 plot(table(age), main="age table plot") 
 
 png(file = "age/age_hist")
@@ -33,8 +45,10 @@ boxplot(age, main="age boxplot")
 ### de +1.5 IQR is groter dan de -1.5 IQR (whiskers)
 ### mediaan ligt in het midden van IQR
 
+# testen of data normaal verdeeld is 
 shapiro.test(age) #Shapiro-Wilk normality test
 ### data is niet normaal verdeeld
+
 
 # transofmatie pogingen
 shapiro.test(log(age))
@@ -43,6 +57,8 @@ shapiro.test(age^(-1))
 shapiro.test(sqrt(age))
 shapiro.test(age^(1/3))
 shapiro.test(age^(1/4))
+
+
 
 ###################################################
 # vraag 2
