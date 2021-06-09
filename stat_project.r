@@ -9,6 +9,7 @@ k = 0
 
 data = data[-c(k+1, j+1, i+1, j*k+1, i*j+1, i*k+1, i*j*k+1, i+j+k+1),]
 
+
 ###################################################
 # vraag 1: verdeling en normaliteit va variabele age
 
@@ -30,20 +31,15 @@ plot(table(age), main="age table plot")
 
 png(file = "age/age_hist.png")
 hist(age,breaks=16, main="age histogram")
-##### 2 duidelijke uitschieters, ziet er rechts scheef uit #######
 
 #normaliteit
-
 png("age/age_qq.png")
 qqnorm(age, main="age QQ-plot")
 qqline(age)
-#### korte staart langs lings
-#### opnieuw 2 uitschieters waargenomen
+
 
 png("age/age_boxplot.png")
 boxplot(age, main="age boxplot")
-### de +1.5 IQR is groter dan de -1.5 IQR (whiskers)
-### mediaan ligt in het midden van IQR
 
 # testen of data normaal verdeeld is 
 shapiro.test(age) #Shapiro-Wilk normality test
@@ -95,7 +91,7 @@ treat = data$treat
 var.test(time  ~ treat)
 
 # AG voor varianties
-qf(c(0.025,0.995),df0,df1)
+qf(c(0.025,0.975),df0,df1)
 
 png("oef2/boxplot.png")
 boxplot(time ~ treat, main="boxplots voor groep 1 en groep 2")
