@@ -10,6 +10,8 @@ k = 0
 data = data[-c(k+1, j+1, i+1, j*k+1, i*j+1, i*k+1, i*j*k+1, i+j+k+1),]
 
 
+
+
 ###################################################
 # vraag 1: verdeling en normaliteit va variabele age
 
@@ -56,14 +58,12 @@ shapiro.test(age^(1/4))
 
 
 
+
+
+
 ###################################################
 # vraag 2
 # print(data)
-
-
-
-test <- wilcox.test(data$time ~ data$treat, alternative = "greater")
-test
 
 
 # subsets
@@ -87,54 +87,36 @@ png("oef2/qqplot_groep2.png")
 qqnorm(time1, main="QQ-plot groep 2")
 qqline(time1)
 
-# # gemiddelde
-# X0 = mean(short_treatment_data$time)
-# X1 = mean(long_treatment_data$time)
+wilcox.test(data$time ~ data$treat, alt="less", correct=FALSE)
 
-# # variantie
-# S0 = sqrt(var(short_treatment_data$time))
-# S1 = sqrt(var(long_treatment_data$time))
+# gemiddelde
+X0 = mean(short_treatment_data$time)
+X1 = mean(long_treatment_data$time)
 
-# # steekproefgrootte
-# N0 = nrow(short_treatment_data)
-# N1 = nrow(long_treatment_data)
+# variantie
+S0 = sqrt(var(short_treatment_data$time))
+S1 = sqrt(var(long_treatment_data$time))
 
-# df0 = N0-1
-# df1 = N1-1
-
-# print(paste0("X0: ", X0))
-# print(paste0("X1: ", X1))
-# print(paste0("S0: ", S0))
-# print(paste0("S1: ", S1))
+# steekproefgrootte
+N0 = nrow(short_treatment_data)
+N1 = nrow(long_treatment_data)
 
 
 
 
-# # F-test voor varianties
-# var.test(time  ~ treat)
-
-# # AG voor varianties
-# qf(c(0.025,0.975),df0,df1)
-
-
-
-
-# data$treat <- as.character(data$treat)
-# # t-test: H1: µ0 - µ1 < 0
-# t.test(data$time ~ data$treat,mu=0, alternative = "less", var.equal = TRUE)
-
-# # AG voor test H1: µ1 > µ0
-# qt(1-0.025, 604)
 
 ###################################################
 # vraag 3
 
-hercoc = data$hercoc
+ivhx = data$ivhx
 
-table (treat, hercoc)
-Xsq <- chisq.test(treat,hercoc)
+table (treat, ivhx)
+Xsq <- chisq.test(treat,ivhx)
 Xsq$expected
 Xsq
+
+
+
 
 
 ###################################################
@@ -149,9 +131,12 @@ plot(los, time, main = "scatter plot",
      xlab = "los", ylab = "time",
      pch = 19, frame = FALSE)
 # Add regression line
-plot(los, time, main = "regression line",
+plot(los, time, main = "scatter plot with regression line",
      xlab = "los", ylab = "time",
      pch = 19, frame = FALSE)
 abline(lm(time ~ los, data = mtcars), col = "blue")
 
-cor.test(los, time, method="pearson")
+lm = lm(los~time)
+summary(lm)
+
+cor.test(los, time, method="spearman", exact = FALSE)
